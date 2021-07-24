@@ -1,10 +1,10 @@
 import React from 'react';
+import {IdContext} from "./src/IdContext"
 import {Home} from "./src/pages/Home"
 import {Details} from "./src/pages/GifDetails"
 import 'react-native-gesture-handler';
 import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
-
+import {CardStyleInterpolators, createStackNavigator } from '@react-navigation/stack';
 const Stack = createStackNavigator();
 
 // import { Provider } from 'react-redux';
@@ -32,11 +32,19 @@ export default function App() {
   return (
     // <Provider store={store}>
     <NavigationContainer>
-      <Stack.Navigator>
+      <Stack.Navigator
+      screenOptions={{
+        headerShown: false
+      }}
+      screenOptions={{
+        cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS
+      }}>
       <Stack.Screen
           name="Home"
           component={Home}
-          options={{ title: 'Welcome' }}/>
+          options={{headerShown: true}}/>
+
+          
           <Stack.Screen name="Details" component={Details} />
       </Stack.Navigator>
     </NavigationContainer>

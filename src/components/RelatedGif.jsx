@@ -1,8 +1,8 @@
 import React, {useEffect, useState} from 'react';
 import {GIPHY_API_KEY} from "@env"
-import { View , Text, Image,SafeAreaView,ScrollView} from "react-native"
+import {StyleSheet, View , Text, Image, ActivityIndicator, TouchableHighlight} from "react-native"
 
-export const RelatedGifs = ({title, slug}) => {
+export const RelatedGifs = ({title, slug, navigation}) => {
     const [relatedGIFs, setRelatedGIFs] = useState("")
 
     const gifName = title.replace('GIF',' ')
@@ -15,17 +15,32 @@ export const RelatedGifs = ({title, slug}) => {
     console.log(relatedGIFs);
 
     return (<View>
-            <SafeAreaView>
-                <ScrollView>
-                    <Text>Related GIFs</Text>
-                    <View>
+                <Text>Related GIFs</Text>
+                    <View style={styles.gifcontainer}>
                         {relatedGIFs ? (
+                            
                             relatedGIFs.map((item)=>{
-                                return <Image key={item.id} style={{height:170, width:170}} source={{uri: item.images.downsized_large.url}}/>
+                                return (
+                                    <TouchableHighlight key={item.id} style={styles.gifItem}  onPress={() => console.log(42)}>
+                                        <Image key={item.id} style={{height:195, width:195}} source={{uri: item.images.downsized_large.url}}/>
+                                    </TouchableHighlight>
+                                )
                             })
-                        ):<Text>Loading</Text>}
+                        ):<View>
+                            <ActivityIndicator size={80} color="lightgrey" />
+                        </View>}
                     </View>
-                </ScrollView>
-            </SafeAreaView>
     </View>)
 }
+
+const styles = StyleSheet.create({
+    gifcontainer:{
+      flexDirection:"row",
+      flexWrap:"wrap",
+    },
+    gifItem:{
+      margin:4, 
+      borderRadius:16, 
+      overflow: 'hidden'
+    },
+  });
