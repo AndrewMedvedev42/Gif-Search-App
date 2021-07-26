@@ -8,7 +8,7 @@ const Stack = createStackNavigator();
 
 export default function App() {
   return (
-    // <Provider store={store}>
+    //NAVIGATION PAGES
     <NavigationContainer>
       <Stack.Navigator
       screenOptions={{
@@ -20,12 +20,10 @@ export default function App() {
           component={Home}
           screenOptions={{
             headerShown: false}}/>
-
-          
+            
           <Stack.Screen name="Details" component={Details} />
       </Stack.Navigator>
     </NavigationContainer>
-    // </Provider>
   )
 }
 
