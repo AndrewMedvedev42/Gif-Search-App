@@ -4,6 +4,7 @@ import { Ionicons } from '@expo/vector-icons';
 import {GIPHY_API_KEY} from "@env"
 import {Text, Image, View, Platform ,SafeAreaView, ScrollView, ActivityIndicator,StyleSheet, TouchableOpacity} from 'react-native';
 import {RelatedGifs} from "../components/RelatedGif"
+import { back } from 'react-native/Libraries/Animated/src/Easing';
 
 export const Details = ({ navigation, route}) => {
 
@@ -14,9 +15,6 @@ export const Details = ({ navigation, route}) => {
                 .then((data)=>{setGif(data.data)})
       },[])
 
-      if(Gif){
-        console.log(Gif);
-      }
     return Gif ? (
     <View style={{backgroundColor:"#000000", flex:1}}>
     <SafeAreaView>
@@ -34,7 +32,7 @@ export const Details = ({ navigation, route}) => {
         </View>
         {Gif.user ? [
             <View style={styles.userProfile}>
-                <Image style={{height:48, width:48, borderRadius:50, marginRight:8}} source={{uri: Gif.user.avatar_url}}/>
+                <Image style={{height:48, width:48, borderRadius:50,overflow:"hidden",  marginRight:8}} source={{uri: Gif.user.avatar_url}}/>
                 <View>
                     <Text style={{color:"white", fontSize:18}}>{Gif.user.display_name}</Text>
                     <Text style={{color:"white", fontSize:12}}>@{Gif.user.username}</Text>
@@ -50,8 +48,8 @@ export const Details = ({ navigation, route}) => {
         <RelatedGifs title={route.params.name}/>
     </ScrollView>
     </SafeAreaView>        
-    </View>):<View style={{flex:1, alignItems:"center"}}>
-                        <ActivityIndicator size="large" color="#000" />
+    </View>):<View style={{flex:1, alignItems:"center", justifyContent:"center", backgroundColor:"black"}}>
+                        <ActivityIndicator size={80} color="gray" />
                     </View>}
 
 const styles = StyleSheet.create({
@@ -88,7 +86,7 @@ const styles = StyleSheet.create({
                 marginTop:52,
             },
             default: {
-              backgroundColor: 'blue'
+                marginTop:52,
             }
           })
     }

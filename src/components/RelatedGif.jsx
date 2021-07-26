@@ -11,25 +11,24 @@ export const RelatedGifs = ({title, slug, navigation}) => {
         fetch(`https://api.giphy.com/v1/gifs/search?api_key=${GIPHY_API_KEY}&q=${gifName}&limit=10&offset=0&rating=g&lang=en`).then((res)=>{return res.json()})
               .then((data)=>{setRelatedGIFs(data.data)})
     },[])
-
-    console.log(relatedGIFs);
-
+    
     return (<View style={{backgroundColor:"#000"}}>
                 <View style={styles.relatedGifsMessageContainer}>
                     <Text style={{fontWeight:"600", fontSize:17,color:"#FFF"}}>Related GIFs</Text>
                 </View>
                     <View style={styles.gifcontainer}>
                         {relatedGIFs ? (
-                            
-                            relatedGIFs.map((item)=>{
-                                return (
-                                    <TouchableHighlight key={item.id} style={styles.gifItem}  onPress={() => console.log(42)}>
-                                        <Image key={item.id} style={{height:176, width:176}} source={{uri: item.images.downsized_large.url}}/>
-                                    </TouchableHighlight>
-                                )
-                            })
+                            relatedGIFs.length ? [
+                                relatedGIFs.map((item)=>{
+                                    return (
+                                        <TouchableHighlight key={item.id} style={styles.gifItem}>
+                                            <Image key={item.id} style={{height:176, width:176}} source={{uri: item.images.downsized_large.url}}/>
+                                        </TouchableHighlight>
+                                    )
+                                })
+                            ]:<View><Text style={{color:"#ffffff7b"}}>Sorry, no related GIFs were found</Text></View>
                         ):<View>
-                            <ActivityIndicator size="large" color="#963d3d" />
+                            <ActivityIndicator size="large" color="gray" />
                         </View>}
                     </View>
     </View>)

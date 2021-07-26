@@ -1,6 +1,10 @@
+//MPOERTED MATERIALS
 import {GIPHY_API_KEY} from "@env"
 import { StatusBar } from 'expo-status-bar';
+//FOR ICONS
 import { Ionicons } from '@expo/vector-icons';
+import { AntDesign } from '@expo/vector-icons'
+//REACT
 import React, {useEffect, useState} from 'react';
 import { StyleSheet, Text, 
           View, Image, TextInput,Button,
@@ -8,21 +12,17 @@ import { StyleSheet, Text,
           RefreshControl, ActivityIndicator, TouchableOpacity,
           Platform} from 'react-native';
 
-
-
+//WAIT FUNCTION FOR OnRefresh FUNCTION Line: 33
 const wait = (timeout) => {
   return new Promise(resolve => setTimeout(resolve, timeout));
 }
-
+//MAIN COMPONENT
 export const Home = ({ navigation }) => {
+  //STATE TO STORE FETCHED DATA FROM REQUEST FOR GIFS
     const [GifResults, setGifResults] = useState(null)
-
+  //STORES STATE OF INPUT VALUE FOR REQUEST LINK TO FIND THE DATA
     const [searchRequest, setSearchRequest] = useState("")
-
     const [inputActivity, setInputActivity] = useState(false)
-
-    // const [emptyInput, setEmptyInput] = useState(false)
-    // const [cancelButton, setCancelButton] = useState(false)
     const [inputValue, setInputValue] = useState("")
 
     const [refreshing, setRefreshing] = React.useState(false);
@@ -68,7 +68,7 @@ export const Home = ({ navigation }) => {
         <Ionicons style={{marginRight:10.4}} name="search" size={19.2} color="gray" />
         <TouchableOpacity onPress={showCloseInput}>
           <TextInput
-            placeholderTextColor="rgba(255, 255, 255, 0.5)"
+            placeholderTextColor="rgba(255, 255, 255, 0.6)"
             autoFocus={inputActivity}
             value={inputValue}
             editable={inputActivity}
@@ -79,7 +79,7 @@ export const Home = ({ navigation }) => {
             onChangeText={text => {setInputValue(text), setSearchRequest(text);}}/>
       </TouchableOpacity>
         {inputActivity && (
-          <Ionicons style={{marginLeft:10.4}} name="close" size={19.2} color="gray" onPress={RemoveInputValue}/>
+          <AntDesign style={{marginLeft:10.4}} name="closecircle" size={19.2} color="gray" onPress={RemoveInputValue}/>
         )}
       </View> 
       {inputActivity && (
@@ -92,24 +92,25 @@ export const Home = ({ navigation }) => {
     </View>
 {/* END OF NAV ELEMENTS */}
 {/* GIF RESULTS SECTION */}
-    <SafeAreaView style={styles.container}>
-      <ScrollView 
-        style={{flex:1}}
-        refreshControl={
-          <RefreshControl
-            refreshing={refreshing}
-            onRefresh={onRefresh}
-          />}>
         {searchRequest ? (
           <View style={styles.gifcontainer}>
             {/* RENDERS A REQUESTED ARRAY OF GIFS  GifResults AND refreshing STATEMENT IS TRUE*/}
              {GifResults && !refreshing ?[   
-               GifResults[0] ?[
+               GifResults.length ?[
               //MAPS AND RENDERS THE REQUESTED ARRAY OF GIFS 
+              <SafeAreaView>
+                <ScrollView>
+                  <View style={{display: "flex", justifyContent:"center", flexDirection:"row", flexWrap:"wrap",}}>
+                  {
                   GifResults.map((item)=>{
                     return (<TouchableHighlight key={item.id} style={styles.gifItem} onPress={() => {removeCloseInput, navigation.navigate('Details', { id: item.id, name:item.title})}}>
                               <Image key={item.id} style={styles.gif} source={{uri: item.images.downsized.url}}/>
                           </TouchableHighlight> )})
+                  }
+                  </View>
+
+                </ScrollView>
+                </SafeAreaView>
               // SHOWS "NO RESULTS" IN CASE IF GifResults IS EMPTY
                ]:<View style={{height: '100%', justifyContent:"center", alignItems:"center"}}>
                  <Text style={{color:"white"}}>No results for {(<Text style={{color:"white", fontWeight:"700"}}>{inputValue}</Text>)}</Text>
@@ -121,8 +122,8 @@ export const Home = ({ navigation }) => {
           </View>
 //SETS DEFAULT SEARCH REQUEST IF STATE OF SEARCH REQUEST IS EMPTY AKA UNDENTYFIED
         ) : setSearchRequest("nature")}
-      </ScrollView>
-      </SafeAreaView>
+      {/* </ScrollView>
+      </SafeAreaView> */}
       <StatusBar style="auto" />
     </View>
   );
@@ -134,15 +135,6 @@ const styles = StyleSheet.create({
       flexDirection:"row",
       justifyContent:"center",
       marginBottom:12,
-      ...Platform.select({
-        ios: {
-        },
-        android: {
-        },
-        default: {
-          backgroundColor: 'blue'
-        }
-      })
     },
     inputSection:{
       display: "flex",
@@ -171,10 +163,12 @@ const styles = StyleSheet.create({
     },
     inputField:{
       width: 295,
+      height: 24,
       color: "white"
     },
     inputFieldActive:{
       width: 168,
+      height: 24,
       color:"white"
     },
     CancelInputButton:{
@@ -186,14 +180,10 @@ const styles = StyleSheet.create({
       borderRadius:8
     },
     gifcontainer:{
-      display: "flex",
-      justifyContent:"center",
-      flexDirection:"row",
-      flexWrap:"wrap",
+      flex: 1,
     },
     gifItem:{
       margin:4,
-      overflow: "hidden",
       borderRadius:16,
       overflow:"hidden" ,
     },
