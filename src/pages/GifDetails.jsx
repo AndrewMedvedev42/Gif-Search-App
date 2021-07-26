@@ -18,17 +18,18 @@ export const Details = ({ navigation, route}) => {
         console.log(Gif);
       }
     return Gif ? (
-    <View style={{backgroundColor:"#6ada48", flex:1}}>
+    <View style={{backgroundColor:"#000000", flex:1}}>
     <SafeAreaView>
     <ScrollView>
         <View style={styles.chosenGif}>
-            <View style={{borderRadius:24, overflow:"hidden"}}>
-                <Image style={{width:359, height:359}} source={{uri: Gif.images.downsized_large.url}}/>
-                {/* <TouchableOpacity
+            <View style={{borderRadius:24, overflow:"hidden", position:'relative'}}>
+                <TouchableOpacity
                     onPress={() => navigation.navigate('Home')}
                     style={styles.BackToHomeButton}>
                     <Ionicons style={styles.Icon} name="chevron-back-outline" size={19.2} color="gray" />
-                </TouchableOpacity> */}
+                </TouchableOpacity>
+                <Image style={{width:359, height:359}} source={{uri: Gif.images.downsized_large.url}}/>
+                
             </View>
         </View>
         {Gif.user ? [
@@ -65,9 +66,12 @@ const styles = StyleSheet.create({
         alignItems:"center",
         justifyContent:"center",
         borderRadius:72,
-        overflow: "hidden",
+        // overflow: "hidden",
+        position: 'absolute',
+        // top:0,
+        // left:0,
         zIndex: 10,
-        // marginTop:-55,
+        marginTop:8,
         marginLeft:8,
         width: 48,
         height: 48,

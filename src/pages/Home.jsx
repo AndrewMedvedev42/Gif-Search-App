@@ -36,8 +36,9 @@ export const Home = ({ navigation }) => {
     }, [searchRequest]);
 
     useEffect(()=>{
+      setRefreshing(true)
       fetch(`https://api.giphy.com/v1/gifs/search?api_key=${GIPHY_API_KEY}&q=${searchRequest}&limit=20&offset=0&rating=g&lang=en`).then((res)=>{return res.json()})
-              .then((data)=>{setGifResults(data.data)})
+              .then((data)=>{setGifResults(data.data),setRefreshing(false)})
     }, [searchRequest])
 
     const showCloseInput = () => {
@@ -92,7 +93,8 @@ export const Home = ({ navigation }) => {
 {/* END OF NAV ELEMENTS */}
 {/* GIF RESULTS SECTION */}
     <SafeAreaView style={styles.container}>
-      <ScrollView
+      <ScrollView 
+        style={{flex:1}}
         refreshControl={
           <RefreshControl
             refreshing={refreshing}
@@ -100,25 +102,28 @@ export const Home = ({ navigation }) => {
           />}>
         {searchRequest ? (
           <View style={styles.gifcontainer}>
+            {/* RENDERS A REQUESTED ARRAY OF GIFS  GifResults AND refreshing STATEMENT IS TRUE*/}
              {GifResults && !refreshing ?[   
                GifResults[0] ?[
-
+              //MAPS AND RENDERS THE REQUESTED ARRAY OF GIFS 
                   GifResults.map((item)=>{
                     return (<TouchableHighlight key={item.id} style={styles.gifItem} onPress={() => {removeCloseInput, navigation.navigate('Details', { id: item.id, name:item.title})}}>
                               <Image key={item.id} style={styles.gif} source={{uri: item.images.downsized.url}}/>
                           </TouchableHighlight> )})
               // SHOWS "NO RESULTS" IN CASE IF GifResults IS EMPTY
-               ]:<Text>No results</Text>] :
+               ]:<View style={{height: '100%', justifyContent:"center", alignItems:"center"}}>
+                 <Text style={{color:"white"}}>No results for {(<Text style={{color:"white", fontWeight:"700"}}>{inputValue}</Text>)}</Text>
+               </View>]:
              //SHOWS LOADING ANIMATION IF GITRESULTS IS NOT YET DEFINED OR STATE OF REFRESHING EQUEL TO TRUE
                 <View style={styles.loadingAnimationContainer}>
-                      <ActivityIndicator size={80} color="gray" />
+                      <ActivityIndicator style={styles.loadingAnimation} size={80} color="gray" />
                 </View>}
           </View>
 //SETS DEFAULT SEARCH REQUEST IF STATE OF SEARCH REQUEST IS EMPTY AKA UNDENTYFIED
         ) : setSearchRequest("nature")}
       </ScrollView>
       </SafeAreaView>
-      {/* <StatusBar style="auto" /> */}
+      <StatusBar style="auto" />
     </View>
   );
 }
@@ -146,7 +151,7 @@ const styles = StyleSheet.create({
       width: 359,
       borderRadius:16,
       height: 56,
-      backgroundColor:"#2a5bbe",
+      backgroundColor:"#17181A",
       paddingHorizontal:18.4,
       borderColor:"gray",
       borderWidth : 1
@@ -203,10 +208,8 @@ const styles = StyleSheet.create({
       paddingTop: StatusBar.currentHeight,
     },
     loadingAnimationContainer:{
-      flex:1, 
+      flex:3, 
       alignItems:"center", 
       justifyContent:"center", 
-      height:700
     }
-    
   });
