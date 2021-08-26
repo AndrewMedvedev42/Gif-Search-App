@@ -1,4 +1,5 @@
 import React, {useEffect, useState} from 'react';
+import { GifByIdURL } from "../API";
 import undentifiedUser from "../img/udentifiedUser.png"
 import { Ionicons } from '@expo/vector-icons';
 import {GIPHY_API_KEY} from "@env"
@@ -11,7 +12,7 @@ export const Details = ({navigation, route}) => {
 
     //FETCHED GIF BY ID WHICH WAS ACCEPTED FROM HOME BY PRESSING ON GIF ITEM
     useEffect(()=>{
-        fetch(`https://api.giphy.com/v1/gifs/${route.params.id}?api_key=${GIPHY_API_KEY}`).then((res)=>{return res.json()})
+        fetch(GifByIdURL(route.params.id)).then((res)=>{return res.json()})
                 .then((data)=>{setGif(data.data)})
       },[])
     //IF STATE OF Gif IS TRUE, IT RENDER THE REQUESTED GIF

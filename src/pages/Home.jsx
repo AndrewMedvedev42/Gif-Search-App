@@ -1,10 +1,11 @@
-//MPOERTED MATERIALS
-import {GIPHY_API_KEY} from "@env"
+//IPOERTED MATERIALS
+import { GifByNameURL } from "../API";
 import { StatusBar } from 'expo-status-bar';
 //FOR ICONS
 import { Ionicons } from '@expo/vector-icons';
 import { AntDesign } from '@expo/vector-icons'
 //REACT
+import { showCloseInput, removeCloseInput, RemoveInputValue } from "../helperFunctions";
 import React, {useEffect, useState} from 'react';
 import { StyleSheet, Text, 
           View, Image, TextInput,
@@ -32,12 +33,11 @@ export const Home = ({ navigation }) => {
   //STATE THAT IDENTIFIES IF SOMETHING REFREHSING OR NOT
     const [refreshing, setRefreshing] = React.useState(false);
 
-  //FUNCTION THAT REFRESHES CURRENT gitResults FOR NEW ONE
-    const onRefresh = React.useCallback(() => {
+  //FUNCTION THAT REFRESHES CURRENT gitResults FOR NEW ONES
   //WHEN refreshing IS TRUE, CONDITIONAL RENDERING METHOD AT Line: 111, WILL SET LOADING ANIMATION 
+    const onRefresh = React.useCallback(() => {
       setRefreshing(true)
-  //THIS REQUEST SETS IT'S FETCHED ARRAY OF OBJECTS WITH GIFS FOR 
-      fetch(`https://api.giphy.com/v1/gifs/search?api_key=${GIPHY_API_KEY}&q=${searchRequest}&limit=20&offset=0&rating=g&lang=en`).then((res)=>{return res.json()})
+      fetch(GifByNameURL(searchRequest)).then((res)=>{return res.json()})
                 .then((data)=>{setGifResults(data.data)})
       wait(100).then(() =>{setRefreshing(false)});
     }, [searchRequest]);
@@ -45,24 +45,10 @@ export const Home = ({ navigation }) => {
   //DEFAULT REQUEST AND WILL UPDATE WHEN searchRequest IS CHANGED
     useEffect(()=>{
       setRefreshing(true)
-      fetch(`https://api.giphy.com/v1/gifs/search?api_key=${GIPHY_API_KEY}&q=${searchRequest}&limit=20&offset=0&rating=g&lang=en`).then((res)=>{return res.json()})
+      fetch(GifByNameURL(searchRequest)).then((res)=>{return res.json()})
               .then((data)=>{setGifResults(data.data),setRefreshing(false)})
     }, [searchRequest])
 
-  //FUNCTION TO SHOW CANCEL BUTTON TO DISABLE INPUT FIELD AND BUTTON TO CLEAR THE INPUT FIELD
-    const showCloseInput = () => {
-      setInputActivity(true)
-    }
-  //FUNCTION TO HIDE CANCEL BUTTON TO DISABLE INPUT FIELD AND BUTTON TO CLEAR THE INPUT FIELD
-    const removeCloseInput = () => {
-      setInputActivity(false)
-      
-    }
-  //FUNCTION FOR BUTTON TO CLEAR INPUT VALUE IN <TEXT_INPUT> AND SET NEW SEARCH REQUEST
-    const RemoveInputValue = () => {
-      setInputValue("")
-      setSearchRequest("")
-    }
 
   return ( 
     <View style={styles.container}>

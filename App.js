@@ -15,6 +15,7 @@ export default function App() {
         headerShown: false, 
         cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS
       }}>
+        
       <Stack.Screen
           name="Home"
           component={Home}
