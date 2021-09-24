@@ -5,7 +5,7 @@ import { StatusBar } from 'expo-status-bar';
 import { Ionicons } from '@expo/vector-icons';
 import { AntDesign } from '@expo/vector-icons'
 //REACT
-import { showCloseInput, removeCloseInput, RemoveInputValue } from "../helperFunctions";
+import { showCloseInput, removeCloseInput} from "../helperFunctions";
 import React, {useEffect, useState} from 'react';
 import { StyleSheet, Text, 
           View, Image, TextInput,
@@ -50,6 +50,11 @@ export const Home = ({ navigation }) => {
     }, [searchRequest])
 
 
+    const RemoveInputValue = () => {
+      setInputValue("")
+      setSearchRequest("")
+  }
+
   return ( 
     <View style={styles.container}>
 {/*START OF NAV */}
@@ -57,7 +62,7 @@ export const Home = ({ navigation }) => {
     {/* CHECKS WHEN <TEXT INPUT> IS ACTIVE BY CHEKCING inputActivity STATE FOR APPLYING STYLES TO THE INPUT SECTION*/}
       <View style={inputActivity ? styles.inputSectionActive : styles.inputSection}>
         <Ionicons style={{marginRight:10.4}} name="search" size={19.2} color="gray" />
-        <TouchableOpacity onPress={showCloseInput}>
+        <TouchableOpacity onPress={()=>{setInputActivity(showCloseInput())}}>
           <TextInput
             placeholderTextColor="rgba(255, 255, 255, 0.6)"
         //AUTO FOCUS ON TEXT INPUT WHEN inputActivity IS TRUE
@@ -83,7 +88,7 @@ export const Home = ({ navigation }) => {
       {/* WHEN STATE OF inputActivity IS TRUE, IT RENDERS BUTTON TO DISABLE TEXT INPUT, AND HIDE ITSELF WITH CLEAR BUTTON*/}
       {inputActivity && (
         <TouchableOpacity
-          onPress={removeCloseInput}
+          onPress={()=>{setInputActivity(removeCloseInput())}}
           style={styles.CancelInputButton}>
             <Text>Cancel</Text>
         </TouchableOpacity>

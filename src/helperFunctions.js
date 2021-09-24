@@ -1,14 +1,9 @@
   //FUNCTION TO SHOW CANCEL BUTTON TO DISABLE INPUT FIELD AND BUTTON TO CLEAR THE INPUT FIELD
 export  const showCloseInput = () => {
-    setInputActivity(true)
+    return true
   }
 //FUNCTION TO HIDE CANCEL BUTTON TO DISABLE INPUT FIELD AND BUTTON TO CLEAR THE INPUT FIELD
 export  const removeCloseInput = () => {
-    setInputActivity(false)
-    
+    return false
   }
 //FUNCTION FOR BUTTON TO CLEAR INPUT VALUE IN <TEXT_INPUT> AND SET NEW SEARCH REQUEST
-export  const RemoveInputValue = () => {
-    setInputValue("")
-    setSearchRequest("")
-  }

@@ -2,7 +2,6 @@ import React, {useEffect, useState} from 'react';
 import { GifByIdURL } from "../API";
 import undentifiedUser from "../img/udentifiedUser.png"
 import { Ionicons } from '@expo/vector-icons';
-import {GIPHY_API_KEY} from "@env"
 import {Text, Image, View, Platform ,SafeAreaView, ScrollView, ActivityIndicator,StyleSheet, TouchableOpacity} from 'react-native';
 import {RelatedGifs} from "../components/RelatedGif"
 
